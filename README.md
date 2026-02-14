@@ -1,4 +1,4 @@
-# KodeKloud Records Store
+# Records Store
 
 A comprehensive demo application for learning and practicing **SRE**, **observability**, and **incident management** concepts. This project simulates a record store e-commerce application with integrated observability tools for metrics, logs, and distributed tracing.
 
