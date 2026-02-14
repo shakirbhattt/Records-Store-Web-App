@@ -4,7 +4,7 @@ A comprehensive demo application for learning and practicing **SRE**, **observab
 
 ## 🎯 Overview
 
-The KodeKloud Records Store application demonstrates a complete observability solution built on modern best practices. It serves as a hands-on learning environment for:
+The Records Store application demonstrates a complete observability solution built on modern best practices. It serves as a hands-on learning environment for:
 
 - Setting up comprehensive monitoring and observability
 - Implementing distributed tracing in applications
