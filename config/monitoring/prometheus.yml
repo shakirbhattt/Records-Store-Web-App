@@ -1,0 +1,60 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+# Uncomment to add the Prometheus job to scrape the API metrics
+ 
+  - job_name: 'kodekloud-record-store-api'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['api:8000']
+
+# Worker metrics are pushed to pushgateway, not scraped directly
+#  - job_name: 'kodekloud-record-store-worker'
+#    metrics_path: '/metrics'
+#    static_configs:
+#      - targets: ['worker:8000']
+
+  - job_name: 'pushgateway'
+    honor_labels: true
+    static_configs:
+      - targets: ['pushgateway:9091']
+
+  - job_name: 'blackbox-exporter'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['blackbox-exporter:9115']
+
+  - job_name: 'blackbox-health'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - http://api:8000/health
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+      - source_labels: [__param_target]
+        regex: '.*/(.*)'
+        replacement: /$1
+        target_label: endpoint
+
+rule_files:
+  - /etc/prometheus/alert_rules.yml
+  - /etc/prometheus/sli_rules.yml
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093

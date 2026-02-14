@@ -1,0 +1,2100 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 50,
+      "panels": [],
+      "title": "OVERALL SERVICE HEALTH",
+      "type": "row"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "text": "DOWN ❌"
+                },
+                "1": {
+                  "text": "UP ✅"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 0,
+        "y": 1
+      },
+      "id": 52,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "probe_success{job=\"blackbox-health\", endpoint=\"/health\"}",
+          "interval": "",
+          "legendFormat": "API Service",
+          "refId": "A"
+        }
+      ],
+      "title": "API Service",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "text": "DOWN ❌"
+                },
+                "1": {
+                  "text": "UP ✅"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 8,
+        "y": 1
+      },
+      "id": 53,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "up{job=\"prometheus\"}",
+          "interval": "",
+          "legendFormat": "Database",
+          "refId": "A"
+        }
+      ],
+      "title": "Prometheus Service",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "text": "DOWN ❌"
+                },
+                "1": {
+                  "text": "UP ✅"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 16,
+        "y": 1
+      },
+      "id": 54,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "up{job=\"pushgateway\"}",
+          "interval": "",
+          "legendFormat": "Message Queue",
+          "refId": "A"
+        }
+      ],
+      "title": "Pushgateway Service",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Service availability status against 99.9% target",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 95,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 99.5
+              },
+              {
+                "color": "yellow",
+                "value": 99.8
+              },
+              {
+                "color": "green",
+                "value": 99.9
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 5
+      },
+      "id": 55,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "100 * avg_over_time(probe_success{job=\"blackbox-health\", endpoint=\"/health\"}[5m])",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "AVAILABILITY (Target: 99.9%)",
+      "type": "gauge"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Container CPU usage - Infrastructure metric for system monitoring",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 5
+      },
+      "id": 999,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "avg(rate(process_cpu_seconds_total[5m])) * 100",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Process CPU Usage (%)",
+      "type": "gauge"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "95th percentile latency for orders against 3s target",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 5,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 2
+              },
+              {
+                "color": "orange",
+                "value": 2.5
+              },
+              {
+                "color": "red",
+                "value": 3
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 5
+      },
+      "id": 56,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(kodekloud_http_request_duration_seconds_bucket[5m])) by (le))",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "ORDER LATENCY P95 (Target: 3s)",
+      "type": "gauge"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Combined error budget consumption for both SLOs",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "orange",
+                "value": 75
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 11
+      },
+      "id": 58,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "clamp_max(100 * (1 - avg_over_time(probe_success{job=\"blackbox-health\", endpoint=\"/health\"}[5m])) / 0.001, 100)",
+          "interval": "",
+          "legendFormat": "Availability",
+          "refId": "A"
+        },
+        {
+          "expr": "clamp_max(100 * (1 - (sum(rate(kodekloud_http_requests_total{route=\"/\", status_code=~\"2..\"}[5m])) / sum(rate(kodekloud_http_requests_total{route=\"/\"}[5m])))) / 0.001, 100)",
+          "interval": "",
+          "legendFormat": "Order Processing",
+          "refId": "B"
+        }
+      ],
+      "title": "ERROR BUDGET CONSUMPTION",
+      "type": "gauge"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
+      "id": 60,
+      "panels": [],
+      "title": "7-DAY TRENDS",
+      "type": "row"
+    },
+    {
+      "aliasColors": {
+        "30d": "blue",
+        "7d": "yellow",
+        "Fast Burn": "orange",
+        "SLO Target": "red",
+        "Slow Burn": "yellow"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "description": "Availability trend over the past 7 days against the SLO target",
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 12
+      },
+      "hiddenSeries": false,
+      "id": 8,
+      "legend": {
+        "avg": false,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "SLO Target",
+          "color": "#C4162A",
+          "dashes": true,
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "avg_over_time(probe_success{job=\"blackbox-health\", endpoint=\"/health\"}[5m])",
+          "interval": "",
+          "legendFormat": "7d",
+          "refId": "A"
+        },
+        {
+          "expr": "avg_over_time(probe_success{job=\"blackbox-health\", endpoint=\"/health\"}[1d])",
+          "interval": "",
+          "legendFormat": "1d",
+          "refId": "B"
+        },
+        {
+          "expr": "0.999",
+          "interval": "",
+          "legendFormat": "SLO Target",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Availability Trend",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percentunit",
+          "label": "Availability",
+          "logBase": 1,
+          "max": "1",
+          "min": "0.99",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {
+        "1h p95": "orange",
+        "24h p95": "blue",
+        "6h p95": "yellow",
+        "SLO Target": "red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "description": "Order processing time trend over the past 7 days",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 12
+      },
+      "hiddenSeries": false,
+      "id": 38,
+      "legend": {
+        "avg": false,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "SLO Target",
+          "color": "#C4162A",
+          "dashes": true,
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(kodekloud_http_request_duration_seconds_bucket[1d])) by (le))",
+          "interval": "",
+          "legendFormat": "1d p95",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(kodekloud_http_request_duration_seconds_bucket[5m])) by (le))",
+          "interval": "",
+          "legendFormat": "7d p95",
+          "refId": "B"
+        },
+        {
+          "expr": "3",
+          "interval": "",
+          "legendFormat": "SLO Target",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Order Processing Time Trend",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "s",
+          "label": "Processing Time (p95)",
+          "logBase": 1,
+          "max": "10",
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {
+        "1d Budget": "red",
+        "30d Budget": "blue",
+        "7d Budget": "yellow"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "description": "Error budget consumption trend over time",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 20
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "clamp_max(100 * (1 - avg_over_time(probe_success{job=\"blackbox-health\", endpoint=\"/health\"}[5m])) / 0.001, 100)",
+          "interval": "",
+          "legendFormat": "Availability Budget (7d)",
+          "refId": "A"
+        },
+        {
+          "expr": "clamp_max(100 * (sum(rate(kodekloud_http_request_duration_seconds_bucket{le=\"+Inf\"}[5m])) - sum(rate(kodekloud_http_request_duration_seconds_bucket{le=\"2.5\"}[5m]))) / (0.05 * sum(rate(kodekloud_http_request_duration_seconds_bucket{le=\"+Inf\"}[5m]))), 100)",
+          "interval": "",
+          "legendFormat": "Latency Budget (7d)",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 100,
+          "visible": true
+        }
+      ],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Error Budget Consumption Trend",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": "Budget Consumed",
+          "logBase": 1,
+          "max": "100",
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "id": 16,
+      "panels": [],
+      "title": "Latency SLO",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Percentage of requests faster than our latency SLO target of 300ms",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 95,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 96
+              },
+              {
+                "color": "yellow",
+                "value": 98
+              },
+              {
+                "color": "green",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 22
+      },
+      "id": 18,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "99",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Latency SLO (99% requests < 250ms)",
+      "type": "gauge"
+    },
+    {
+      "aliasColors": {
+        "1h": "green",
+        "1h Fast Burn": "red",
+        "SLO Target": "red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 22
+      },
+      "hiddenSeries": false,
+      "id": 20,
+      "legend": {
+        "avg": false,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "SLO Target",
+          "color": "#C4162A",
+          "dashes": true,
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "100 * (1 - (sum(rate(kodekloud_http_request_duration_seconds_bucket{le=\"+Inf\"}[5m])) - sum(rate(kodekloud_http_request_duration_seconds_bucket{le=\"0.25\"}[5m]))) / sum(rate(kodekloud_http_request_duration_seconds_bucket{le=\"+Inf\"}[5m])))",
+          "interval": "",
+          "legendFormat": "1h Fast Burn",
+          "refId": "A"
+        },
+        {
+          "expr": "99",
+          "interval": "",
+          "legendFormat": "SLO Target",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Latency SLO Compliance",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": "% Requests < 300ms",
+          "logBase": 1,
+          "max": "100",
+          "min": "95",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 30
+      },
+      "id": 22,
+      "panels": [],
+      "title": "Error Rate SLO",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Error rate over different time windows, with 1% SLO target",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 2,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.5
+              },
+              {
+                "color": "orange",
+                "value": 0.8
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 31
+      },
+      "id": 24,
+      "options": {
+        "displayMode": "gradient",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "text": {}
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "sum(rate(kodekloud_http_errors_total[5m])) / sum(rate(kodekloud_http_requests_total[5m]))",
+          "interval": "",
+          "legendFormat": "30d",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(rate(kodekloud_http_errors_total[5m])) / sum(rate(kodekloud_http_requests_total[5m]))",
+          "interval": "",
+          "legendFormat": "7d",
+          "refId": "B"
+        },
+        {
+          "expr": "sum(rate(kodekloud_http_errors_total[1d])) / sum(rate(kodekloud_http_requests_total[1d]))",
+          "interval": "",
+          "legendFormat": "1d",
+          "refId": "C"
+        },
+        {
+          "expr": "sum(rate(kodekloud_http_errors_total[5m])) / sum(rate(kodekloud_http_requests_total[5m]))",
+          "interval": "",
+          "legendFormat": "1h",
+          "refId": "D"
+        }
+      ],
+      "title": "Error Rate by Time Window",
+      "type": "bargauge"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Error budget consumption assuming 1% error rate SLO",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "orange",
+                "value": 75
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 31
+      },
+      "id": 26,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "clamp_max(100 * (sum(rate(kodekloud_http_errors_total[5m])) / sum(rate(kodekloud_http_requests_total[5m]))) / 0.01, 100)",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Error Rate Budget Consumption (1% SLO)",
+      "type": "gauge"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 39
+      },
+      "id": 28,
+      "panels": [],
+      "title": "Order Processing Success Rate SLO",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Current error budget consumption as a percentage of total monthly budget",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "orange",
+                "value": 75
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 40
+      },
+      "id": 40,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "clamp_max(100 * (1 - (sum(rate(kodekloud_http_requests_total{route=\"/\", status_code=~\"2..\"}[5m])) / sum(rate(kodekloud_http_requests_total{route=\"/\"}[5m])))) / 0.001, 100)",
+          "interval": "",
+          "legendFormat": "Consumed",
+          "refId": "A"
+        }
+      ],
+      "title": "Order Processing Error Budget Consumption",
+      "type": "gauge"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Time remaining until monthly order processing SLO budget is exhausted at the current burn rate",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 3
+              },
+              {
+                "color": "yellow",
+                "value": 7
+              },
+              {
+                "color": "green",
+                "value": 14
+              }
+            ]
+          },
+          "unit": "d"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 40
+      },
+      "id": 42,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "clamp_min((0.001 - (1 - (sum(rate(kodekloud_http_requests_total{route=\"/\", status_code=~\"2..\"}[5m])) / sum(rate(kodekloud_http_requests_total{route=\"/\"}[5m]))))) / clamp_min(((1 - (sum(rate(kodekloud_http_requests_total{route=\"/\", status_code=~\"2..\"}[5m])) / sum(rate(kodekloud_http_requests_total{route=\"/\"}[5m])))) - (1 - (sum(rate(kodekloud_http_requests_total{route=\"/\", status_code=~\"2..\"}[5m])) / sum(rate(kodekloud_http_requests_total{route=\"/\"}[5m]))))), 0.000001) * 30, 0)",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Order Processing SLO Budget Remaining",
+      "type": "stat"
+    },
+    {
+      "content": "# Order Processing Error Budget Policy\n\n**SLO: 99.9% order processing success rate (monthly)**\n\n**Error Budget: 0.1% = 43.2 minutes of processing failures per month**\n\n## Actions by Consumption Level\n\n### When 50% of the monthly error budget is consumed:\n- Investigate database and worker queue performance metrics\n- Enhance monitoring of order processing pipeline\n- Alert engineering leadership about potential issues\n\n### When 75% of the budget is consumed:\n- Deploy only critical order processing-related updates\n- Add manual verification step to all deployments\n- Increase worker capacity for order processing\n\n### When 100% of the budget is consumed:\n- Freeze all changes to order processing system\n- Invoke incident response process\n- Switch to simplified order processing flow\n- Require executive approval to resume normal operations",
+      "datasource": null,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 40
+      },
+      "id": 44,
+      "mode": "markdown",
+      "title": "Error Budget Policy",
+      "type": "text"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Success rate for order processing against 99.9% SLO target",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 95,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 99.5
+              },
+              {
+                "color": "yellow",
+                "value": 99.8
+              },
+              {
+                "color": "green",
+                "value": 99.9
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 57
+      },
+      "id": 30,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "100 * sum(rate(kodekloud_http_requests_total{route=\"/\", status_code=~\"2..\"}[5m])) / sum(rate(kodekloud_http_requests_total{route=\"/\"}[5m]))",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Order Processing Success Rate (99.9% Target)",
+      "type": "gauge"
+    },
+    {
+      "aliasColors": {
+        "1h": "orange",
+        "24h": "blue",
+        "6h": "yellow",
+        "SLO Target": "red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 56
+      },
+      "hiddenSeries": false,
+      "id": 32,
+      "legend": {
+        "avg": false,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "SLO Target",
+          "color": "#C4162A",
+          "dashes": true,
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "100 * sum(rate(kodekloud_http_requests_total{route=\"/\", status_code=~\"2..\"}[5m])) / sum(rate(kodekloud_http_requests_total{route=\"/\"}[5m]))",
+          "interval": "",
+          "legendFormat": "1h",
+          "refId": "A"
+        },
+        {
+          "expr": "100 * sum(rate(kodekloud_http_requests_total{route=\"/\", status_code=~\"2..\"}[6h])) / sum(rate(kodekloud_http_requests_total{route=\"/\"}[6h]))",
+          "interval": "",
+          "legendFormat": "6h",
+          "refId": "B"
+        },
+        {
+          "expr": "100 * sum(rate(kodekloud_http_requests_total{route=\"/\", status_code=~\"2..\"}[24h])) / sum(rate(kodekloud_http_requests_total{route=\"/\"}[24h]))",
+          "interval": "",
+          "legendFormat": "24h",
+          "refId": "C"
+        },
+        {
+          "expr": "99.9",
+          "interval": "",
+          "legendFormat": "SLO Target",
+          "refId": "D"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Order Processing Success Rate History",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": "Success Rate",
+          "logBase": 1,
+          "max": "100",
+          "min": "98",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 57
+      },
+      "id": 34,
+      "panels": [],
+      "title": "Order Processing Time SLO",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Current latency SLO budget consumption (% of 5% budget used)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "orange",
+                "value": 75
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 56
+      },
+      "id": 46,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "0",
+          "interval": "",
+          "legendFormat": "Consumed",
+          "refId": "A"
+        }
+      ],
+      "title": "Processing Time Error Budget Consumption",
+      "type": "gauge"
+    },
+    {
+      "content": "# Order Processing Time Budget Policy\n\n**SLO: 95% of orders processed within 3 seconds**\n\n**Error Budget: 5% of orders can exceed the 3-second threshold**\n\n## Actions by Consumption Level\n\n### When 50% of the latency budget is consumed:\n- Analyze performance metrics to identify bottlenecks\n- Review recent code changes affecting order processing\n- Consider optimizing database queries\n\n### When 75% of the latency budget is consumed:\n- Scale up worker resources for order processing\n- Implement queue prioritization for orders\n- Add performance alerts for critical processing paths\n\n### When 100% of the latency budget is consumed:\n- Roll back recent changes affecting processing time\n- Implement circuit breakers to prevent cascading failures\n- Consider temporary feature reduction to improve core functionality\n- Daily status updates to leadership until resolved",
+      "datasource": null,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 56
+      },
+      "id": 48,
+      "mode": "markdown",
+      "title": "Processing Time Budget Policy",
+      "type": "text"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Measures the 95th percentile order processing time against our 3s SLO target",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 10,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 2
+              },
+              {
+                "color": "orange",
+                "value": 2.5
+              },
+              {
+                "color": "red",
+                "value": 3
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 56
+      },
+      "id": 36,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(kodekloud_http_request_duration_seconds_bucket[5m])) by (le))",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Order Processing Time (p95, 3s target)",
+      "type": "gauge"
+    },
+    {
+      "aliasColors": {
+        "1h p95": "orange",
+        "24h p95": "blue",
+        "6h p95": "yellow",
+        "SLO Target": "red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 56
+      },
+      "hiddenSeries": false,
+      "id": 38,
+      "legend": {
+        "avg": false,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "SLO Target",
+          "color": "#C4162A",
+          "dashes": true,
+          "fill": 0,
+          "linewidth": 1
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(kodekloud_http_request_duration_seconds_bucket[5m])) by (le))",
+          "interval": "",
+          "legendFormat": "1h p95",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(kodekloud_http_request_duration_seconds_bucket[6h])) by (le))",
+          "interval": "",
+          "legendFormat": "6h p95",
+          "refId": "B"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(kodekloud_http_request_duration_seconds_bucket[24h])) by (le))",
+          "interval": "",
+          "legendFormat": "24h p95",
+          "refId": "C"
+        },
+        {
+          "expr": "3",
+          "interval": "",
+          "legendFormat": "SLO Target",
+          "refId": "D"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Order Processing Time History",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "s",
+          "label": "Processing Time (p95)",
+          "logBase": 1,
+          "max": "10",
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 23
+      },
+      "id": 62,
+      "panels": [],
+      "title": "COMPONENT HEALTH",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Current error budget consumption as a percentage of total monthly budget",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "orange",
+                "value": 75
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 41
+      },
+      "id": 40,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "clamp_max(100 * (1 - (sum(rate(kodekloud_http_requests_total{route=\"/\", status_code=~\"2..\"}[5m])) / sum(rate(kodekloud_http_requests_total{route=\"/\"}[5m])))) / 0.001, 100)",
+          "interval": "",
+          "legendFormat": "Consumed",
+          "refId": "A"
+        }
+      ],
+      "title": "Order Success Budget",
+      "type": "gauge"
+    },
+    {
+      "content": "### Order Processing Success SLO\n**Target:** 99.9% success rate\n**Error Budget:** 0.1% (43.2 minutes/month)",
+      "datasource": null,
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 12,
+        "y": 41
+      },
+      "id": 64,
+      "mode": "markdown",
+      "title": "Order Processing SLO Definition",
+      "type": "text"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Current latency SLO budget consumption (% of 5% budget used)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "orange",
+                "value": 75
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 46
+      },
+      "id": 46,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "7.5.7",
+      "targets": [
+        {
+          "expr": "clamp_max(100 * (sum(rate(kodekloud_http_request_duration_seconds_bucket{le=\"+Inf\"}[5m])) - sum(rate(kodekloud_http_request_duration_seconds_bucket{le=\"2.5\"}[5m]))) / (0.05 * sum(rate(kodekloud_http_request_duration_seconds_bucket{le=\"+Inf\"}[5m]))), 100)",
+          "interval": "",
+          "legendFormat": "Consumed",
+          "refId": "A"
+        }
+      ],
+      "title": "Processing Time Budget",
+      "type": "gauge"
+    },
+    {
+      "content": "### Order Processing Time SLO\n**Target:** 95% of orders processed within 3 seconds\n**Error Budget:** 5% can exceed threshold",
+      "datasource": null,
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 12,
+        "y": 46
+      },
+      "id": 66,
+      "mode": "markdown",
+      "title": "Processing Time SLO Definition",
+      "type": "text"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 56
+      },
+      "id": 68,
+      "panels": [],
+      "title": "ERROR BUDGET POLICIES",
+      "type": "row"
+    },
+    {
+      "content": "# Order Processing Error Budget Policy\n\n**SLO: 99.9% order processing success rate (monthly)**\n\n**Error Budget: 0.1% = 43.2 minutes of processing failures per month**\n\n## Actions by Consumption Level\n\n### When 50% of the monthly error budget is consumed:\n- Investigate database and worker queue performance metrics\n- Enhance monitoring of order processing pipeline\n- Alert engineering leadership about potential issues\n\n### When 75% of the budget is consumed:\n- Deploy only critical order processing-related updates\n- Add manual verification step to all deployments\n- Increase worker capacity for order processing\n\n### When 100% of the budget is consumed:\n- Freeze all changes to order processing system\n- Invoke incident response process\n- Switch to simplified order processing flow\n- Require executive approval to resume normal operations",
+      "datasource": null,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 57
+      },
+      "id": 44,
+      "mode": "markdown",
+      "title": "Success Rate Error Budget Policy",
+      "type": "text"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 27,
+  "style": "dark",
+  "tags": [
+    "SLO",
+    "SLI",
+    "Monitoring",
+    "Error Budget"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "KodeKloud Records Store SLOs",
+  "uid": "kodekloud-slos",
+  "version": 1
+}

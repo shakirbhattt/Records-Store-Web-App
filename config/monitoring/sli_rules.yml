@@ -1,0 +1,62 @@
+groups:
+  - name: SLI_Latency
+    rules:
+      - record: sli:latency:p90
+        expr: histogram_quantile(0.90, sum(rate(http_request_duration_seconds_bucket[5m])) by (le, endpoint))
+        labels:
+          sli: latency
+          quantile: p90
+      
+      - record: sli:latency:p95
+        expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le, endpoint))
+        labels:
+          sli: latency
+          quantile: p95
+      
+      - record: sli:latency:p99
+        expr: histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket[5m])) by (le, endpoint))
+        labels:
+          sli: latency
+          quantile: p99
+
+  - name: SLI_Availability
+    rules:
+      - record: sli:availability:ratio_5m
+        expr: avg_over_time(probe_success{endpoint="/health"}[5m])
+        labels:
+          sli: availability
+          window: 5m
+      
+      - record: sli:availability:ratio_1h
+        expr: avg_over_time(probe_success{endpoint="/health"}[1h])
+        labels:
+          sli: availability
+          window: 1h
+      
+      - record: sli:availability:ratio_24h
+        expr: avg_over_time(probe_success{endpoint="/health"}[24h])
+        labels:
+          sli: availability
+          window: 24h
+
+  - name: SLI_ErrorRate
+    rules:
+      - record: sli:error_rate:ratio_5m
+        expr: sum(rate(http_request_errors_total[5m])) / sum(rate(http_requests_total[5m]))
+        labels:
+          sli: error_rate
+          window: 5m
+      
+      - record: sli:error_rate:ratio_1h
+        expr: sum(rate(http_request_errors_total[1h])) / sum(rate(http_requests_total[1h]))
+        labels:
+          sli: error_rate
+          window: 1h
+
+  - name: SLI_Throughput
+    rules:
+      - record: sli:throughput:requests_per_second
+        expr: sum(rate(http_requests_total[5m])) by (endpoint)
+        labels:
+          sli: throughput
+          window: 5m

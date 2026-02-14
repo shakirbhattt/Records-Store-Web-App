@@ -1,0 +1,123 @@
+# Uncomment to add alerts to Alertmanager
+groups:
+- name: Cause Alerts
+  rules:
+  - alert: DemoAlert
+    expr: up == 1
+    for: 10s
+    labels:
+      severity: warning
+    annotations:
+      summary: "Demo alert for testing Alertmanager"
+      description: "This is a demo alert that fires immediately to test the alerting pipeline."
+      
+  - alert: CriticalDemoAlert
+    expr: prometheus_config_last_reload_successful == 1
+    for: 10s
+    labels:
+      severity: critical
+    annotations:
+      summary: "Critical demo alert for testing"
+      description: "This critical alert demonstrates the alerting workflow."
+  - alert: HighErrorRate
+    expr: sum(rate(http_requests_total{status_code=~"4xx|5xx"}[5m])) / sum(rate(http_requests_total[5m])) > 0.05
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "High error rate detected"
+      description: "The error rate is above 5% for the last 5 minutes."
+
+  - alert: LongRequestDuration
+    expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) > 1
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Long request duration detected"
+      description: "95th percentile request duration is above 1 second for the last 5 minutes."
+    
+  - alert: HighUserLatency
+    expr: probe_duration_seconds{job="blackbox"} > 2
+    for: 5m
+    labels:
+      severity: warning
+      monitoring_type: black-box
+    annotations:
+      summary: "High user-perceived latency"
+      description: "Users are experiencing response times above 2 seconds."
+
+- name: KodeKloud_Records_Checkout_SLOs (SLO-Based Alerts)
+  rules:
+  - record: checkout:request_failures:ratio_5m
+    expr: sum(rate(http_requests_total{endpoint="/checkout", status_code=~"4xx|5xx"}[5m])) / sum(rate(http_requests_total{endpoint="/checkout"}[5m]))
+    labels:
+      sli: availability
+
+  - record: checkout:request_latency:p95_5m
+    expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{endpoint="/checkout"}[5m])) by (le))
+    labels:
+      sli: latency
+
+  - alert: CheckoutErrorBudgetBurnFast
+    expr: checkout:request_failures:ratio_5m > 0.1
+    for: 5m
+    labels:
+      severity: critical
+      team: platform
+    annotations:
+      summary: "Checkout API error budget burning too fast"
+      description: "Checkout is failing at {{ $value | humanizePercentage }} error rate over the last 5m, consuming error budget 10x faster than allowed. This would exhaust our 30-day budget in ~3 days."
+      dashboard: "https://grafana.kodekloud-records.com/d/checkout"
+      playbook: "https://wiki.kodekloud-records.com/playbooks/checkout-errors"
+      impact: "Customers are unable to complete purchases"
+
+  - alert: CheckoutErrorBudgetBurnMedium
+    expr: checkout:request_failures:ratio_5m > 0.02
+    for: 30m
+    labels:
+      severity: warning
+      team: platform
+    annotations:
+      summary: "Checkout API error budget burning at medium rate"
+      description: "Checkout is failing at {{ $value | humanizePercentage }} error rate over the last 30m, consuming error budget 2x faster than allowed. This would exhaust our 30-day budget in ~15 days."
+      dashboard: "https://grafana.kodekloud-records.com/d/checkout"
+      playbook: "https://wiki.kodekloud-records.com/playbooks/checkout-errors"
+
+  - alert: CheckoutLatencyTooHigh
+    expr: checkout:request_latency:p95_5m > 0.5
+    for: 10m
+    labels:
+      severity: warning
+      team: platform
+    annotations:
+      summary: "Checkout API p95 latency exceeding SLO"
+      description: "95th percentile checkout latency is {{ $value | humanizeDuration }} over the last 10m, exceeding our 500ms SLO target. Customers are experiencing slow checkout processing."
+      dashboard: "https://grafana.kodekloud-records.com/d/checkout-performance"
+      playbook: "https://wiki.kodekloud-records.com/playbooks/checkout-latency"
+
+  - alert: CheckoutErrorBudgetBurnSlow
+    expr: checkout:request_failures:ratio_5m > 0.005
+    for: 3h
+    labels:
+      severity: info
+      team: platform
+    annotations:
+      summary: "Checkout API error budget burning slowly"
+      description: "Checkout has a {{ $value | humanizePercentage }} error rate over the last 3h, which is 5x our SLO target. This will consume 50% of monthly error budget in ~9 days if it continues."
+      dashboard: "https://grafana.kodekloud-records.com/d/checkout"
+
+  # CAPSTONE: SLO for [your chosen SLI] >= [your target]%
+  # - alert: [YourSLI]SLOViolation
+  #   expr: |
+  #     # Calculate your SLI success rate over 30 days
+  #     # Example formula: successful_requests / total_requests < your_target
+  #     ([your_success_metric] / ([your_success_metric] + [your_failure_metric])) < 0.999
+  #   for: 15m
+  #   labels:
+  #     severity: critical
+  #     team: platform
+  #   annotations:
+  #     summary: '[Your SLI] SLO violation'
+  #     description: '[Your SLI] has dropped below [target]% over the evaluation period.'
+  #     playbook: 'https://wiki.kodekloud-records.com/playbooks/[your-sli]'

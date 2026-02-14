@@ -1,0 +1,270 @@
+{
+  "id": null,
+  "title": "KodeKloud Records Store - End-to-End Purchase Journey",
+    "tags": ["kodekloud", "purchase-journey", "end-to-end"],
+    "style": "dark",
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "🛒 Purchase Journey Overview",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "sum(kodekloud_http_requests_total{route=\"/checkout\"})",
+            "legendFormat": "Total Checkout Requests"
+          },
+          {
+            "expr": "sum(kodekloud_http_requests_total{route=\"/checkout\",status_code=~\"2..\"}) / sum(kodekloud_http_requests_total{route=\"/checkout\"}) * 100",
+            "legendFormat": "Checkout Success Rate %"
+          },
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(kodekloud_http_request_duration_seconds_bucket{route=\"/checkout\"}[5m])) by (le))",
+            "legendFormat": "P95 Latency (s)"
+          },
+          {
+            "expr": "sum(kodekloud_http_requests_total{route=\"/products\"})",
+            "legendFormat": "Product Views"
+          },
+          {
+            "expr": "sum(kodekloud_http_requests_total{route=\"/orders\"})",
+            "legendFormat": "Orders Processed"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "palette-classic"},
+            "custom": {"displayMode": "list", "orientation": "auto"},
+            "mappings": [],
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "red", "value": 80}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 2,
+        "title": "📊 Request Flow Stages",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [
+          {
+            "expr": "sum(kodekloud_http_requests_total{route=\"/products\"})",
+            "legendFormat": "1. Product Browsing"
+          },
+          {
+            "expr": "sum(kodekloud_http_requests_total{route=\"/checkout\"})",
+            "legendFormat": "2. Checkout Initiation"
+          },
+          {
+            "expr": "sum(kodekloud_http_requests_total{route=\"/orders\"})",
+            "legendFormat": "3. Order Processing"
+          },
+          {
+            "expr": "sum(kodekloud_http_requests_total{route=\"/\"})",
+            "legendFormat": "4. Email Confirmation"
+          }
+        ],
+        "yAxes": [
+          {"label": "Requests/sec", "show": true},
+          {"show": false}
+        ],
+        "legend": {"show": true, "alignAsTable": true, "rightSide": false}
+      },
+      {
+        "id": 3,
+        "title": "⏱️ End-to-End Journey Time",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, sum(rate(kodekloud_http_request_duration_seconds_bucket{route=\"/checkout\"}[5m])) by (le))",
+            "legendFormat": "P50 Checkout API"
+          },
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(kodekloud_http_request_duration_seconds_bucket{route=\"/checkout\"}[5m])) by (le))",
+            "legendFormat": "P95 Checkout API"
+          },
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(kodekloud_http_request_duration_seconds_bucket{route=\"/orders\"}[5m])) by (le))",
+            "legendFormat": "P95 Order Processing"
+          }
+        ],
+        "yAxes": [
+          {"label": "Duration (seconds)", "show": true},
+          {"show": false}
+        ]
+      },
+      {
+        "id": 4,
+        "title": "🔍 Distributed Trace Analysis",
+        "type": "table",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 16},
+        "datasource": {
+          "type": "jaeger",
+          "uid": "jaeger"
+        },
+        "targets": [
+          {
+            "queryType": "search",
+            "service": "kodekloud-record-store-api-dev",
+            "operation": "checkout_order",
+            "limit": 20
+          }
+        ],
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "traceID": "Trace ID",
+                "operationName": "Operation",
+                "duration": "Duration",
+                "startTime": "Start Time",
+                "tags": "Tags"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "🔗 Service Dependency Health",
+        "type": "stat",
+        "gridPos": {"h": 6, "w": 8, "x": 0, "y": 24},
+        "targets": [
+          {
+            "expr": "up{job=\"kodekloud-record-store-api\"}",
+            "legendFormat": "API Service"
+          },
+          {
+            "expr": "up{job=\"postgres\"}",
+            "legendFormat": "Database"
+          },
+          {
+            "expr": "up{job=\"rabbitmq\"}",
+            "legendFormat": "Message Queue"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "thresholds"},
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "green", "value": 1}
+              ]
+            },
+            "mappings": [
+              {"options": {"0": {"text": "DOWN"}}, "type": "value"},
+              {"options": {"1": {"text": "UP"}}, "type": "value"}
+            ]
+          }
+        }
+      },
+      {
+        "id": 8,
+        "title": "📝 Purchase Journey Logs",
+        "type": "logs",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 30},
+        "datasource": {
+          "type": "loki",
+          "uid": "loki"
+        },
+        "targets": [
+          {
+            "expr": "{container_name=\"kodekloud-record-store-api\"} |~ \"checkout|order_placed|product_not_found\"",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "showTime": true,
+          "showLabels": false,
+          "showCommonLabels": false,
+          "wrapLogMessage": false,
+          "prettifyLogMessage": false,
+          "enableLogDetails": true,
+          "dedupStrategy": "none",
+          "sortOrder": "Descending"
+        }
+      },
+      {
+        "id": 10,
+        "title": "🎯 Business Metrics",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 22},
+        "targets": [
+          {
+            "expr": "increase(kodekloud_http_requests_total{job=\"kodekloud-record-store-api\",route=\"/checkout\",status_code=\"200\"}[1h])",
+            "legendFormat": "Orders/Hour"
+          },
+          {
+            "expr": "sum(increase(kodekloud_http_requests_total{job=\"kodekloud-record-store-api\",route=\"/checkout\",status_code=\"200\"}[24h]))",
+            "legendFormat": "Daily Orders"
+          },
+          {
+            "expr": "rate(kodekloud_http_requests_total{job=\"kodekloud-record-store-api\",route=\"/checkout\",status_code=\"200\"}[5m]) * 60",
+            "legendFormat": "Orders/Min"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "palette-classic"},
+            "custom": {"displayMode": "list", "orientation": "auto"},
+            "mappings": [],
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "yellow", "value": 10},
+                {"color": "red", "value": 50}
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "time": {"from": "now-1h", "to": "now"},
+    "timepicker": {},
+    "templating": {
+      "list": [
+        {
+          "name": "trace_id",
+          "type": "textbox",
+          "label": "Trace ID",
+          "description": "Enter trace ID to filter logs and traces"
+        }
+      ]
+    },
+    "annotations": {
+      "list": [
+        {
+          "name": "Deployments",
+          "enable": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "datasource": "Prometheus",
+          "expr": "changes(process_start_time_seconds{job=\"kodekloud-record-store-api\"}[1m])"
+        }
+      ]
+    },
+    "refresh": "5s",
+    "schemaVersion": 27,
+    "version": 0,
+    "links": [
+      {
+        "title": "Jaeger Traces",
+        "url": "http://localhost:16686/search?service=kodekloud-record-store-api&operation=checkout_order",
+        "type": "dashboards"
+      },
+      {
+        "title": "Application Logs",
+        "url": "http://localhost:3000/explore?orgId=1&left=%5B%22now-1h%22,%22now%22,%22Loki%22,%7B%22expr%22:%22%7Bcontainer_name%3D%5C%22kodekloud-record-store-api%5C%22%7D%22%7D%5D",
+        "type": "dashboards"
+      }
+    ]
+} 
